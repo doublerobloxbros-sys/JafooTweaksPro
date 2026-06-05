@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jafoo Tweaks — Windows Gaming Optimizer</title>
+<meta name="description" content="Jafoo Tweaks: Free Windows gaming optimizer. Boost FPS, reduce latency, debloat Windows — built by a gamer, for gamers.">
+<meta property="og:title" content="Jafoo Tweaks — Windows Gaming Optimizer">
+<meta property="og:description" content="Free Windows gaming optimizer. Boost FPS, reduce latency, debloat Windows.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060608;
+    --surface: #0d0d12;
+    --surface2: #12121a;
+    --border: #1e1e2e;
+    --accent: #00f0ff;
+    --accent2: #7b00ff;
+    --accent3: #ff3c6e;
+    --text: #e8e8f0;
+    --muted: #5a5a78;
+    --card: #0f0f18;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 2px; }
+
+  /* ─── SCAN LINE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,240,255,0.015) 2px, rgba(0,240,255,0.015) 4px);
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(6,6,8,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: #000;
+    letter-spacing: 0;
+    box-shadow: 0 0 20px rgba(0,240,255,0.4);
+  }
+
+  .logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+
+  .logo-text span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-cta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #000 !important;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    transition: box-shadow 0.2s, background 0.2s !important;
+  }
+
+  .nav-cta:hover {
+    color: #000 !important;
+    background: #00d4e0 !important;
+    box-shadow: 0 0 24px rgba(0,240,255,0.5) !important;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,240,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,240,255,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-glow-1 {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(123,0,255,0.18) 0%, transparent 70%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+
+  .hero-glow-2 {
+    position: absolute;
+    top: 30%;
+    left: 20%;
+    width: 400px;
+    height: 200px;
+    background: radial-gradient(ellipse, rgba(0,240,255,0.1) 0%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+  }
+
+  .hero-glow-3 {
+    position: absolute;
+    top: 40%;
+    right: 15%;
+    width: 300px;
+    height: 200px;
+    background: radial-gradient(ellipse, rgba(255,60,110,0.08) 0%, transparent 70%);
+    filter: blur(50px);
+    pointer-events: none;
+  }
+
+  .trust-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,240,255,0.06);
+    border: 1px solid rgba(0,240,255,0.2);
+    border-radius: 100px;
+    padding: 6px 16px 6px 8px;
+    margin-bottom: 32px;
+    animation: fadeInUp 0.6s ease both;
+  }
+
+  .trust-avatars {
+    display: flex;
+  }
+
+  .trust-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid var(--bg);
+    margin-left: -6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .trust-avatar:first-child { margin-left: 0; }
+  .ta1 { background: linear-gradient(135deg, #00f0ff, #0080ff); }
+  .ta2 { background: linear-gradient(135deg, #7b00ff, #ff3c6e); }
+  .ta3 { background: linear-gradient(135deg, #ff3c6e, #ff8000); }
+
+  .trust-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeInUp 0.6s 0.1s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 10vw, 130px);
+    line-height: 0.9;
+    letter-spacing: 3px;
+    color: var(--text);
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeInUp 0.7s 0.2s ease both;
+  }
+
+  .hero-title .accent { color: var(--accent); text-shadow: 0 0 40px rgba(0,240,255,0.5); }
+  .hero-title .accent2 { color: var(--accent2); text-shadow: 0 0 40px rgba(123,0,255,0.5); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 20px auto 40px;
+    font-weight: 500;
+    line-height: 1.5;
+    opacity: 0;
+    animation: fadeInUp 0.7s 0.35s ease both;
+  }
+
+  .hero-sub strong { color: var(--text); }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent);
+    color: #000;
+    text-decoration: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    padding: 14px 36px;
+    border-radius: 4px;
+    transition: box-shadow 0.25s, transform 0.2s;
+    position: relative;
+    opacity: 0;
+    animation: fadeInUp 0.7s 0.45s ease both;
+  }
+
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 40px rgba(0,240,255,0.6), 0 0 80px rgba(0,240,255,0.2);
+    transform: translateY(-2px);
+  }
+
+  .btn-primary svg { width: 18px; height: 18px; }
+
+  .hero-meta {
+    margin-top: 18px;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    opacity: 0;
+    animation: fadeInUp 0.7s 0.55s ease both;
+  }
+
+  .hero-meta span { color: var(--accent); font-weight: 700; }
+
+  /* ─── STATS STRIP ─── */
+  .stats-strip {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    padding: 28px 48px;
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(0,240,255,0.4);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  /* ─── SECTION COMMONS ─── */
+  section { padding: 100px 48px; }
+
+  .section-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 5vw, 72px);
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .section-desc {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 560px;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  /* ─── BLOAT SECTION ─── */
+  .bloat-section {
+    background: var(--surface);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bloat-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+  }
+
+  .bloat-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    max-width: 700px;
+    margin: 48px auto 0;
+    position: relative;
+  }
+
+  .bloat-icon {
+    width: 52px;
+    height: 52px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    transition: all 0.3s;
+    animation: floatBloat 3s ease-in-out infinite;
+  }
+
+  .bloat-icon:nth-child(2) { animation-delay: 0.3s; }
+  .bloat-icon:nth-child(3) { animation-delay: 0.6s; }
+  .bloat-icon:nth-child(4) { animation-delay: 0.9s; }
+  .bloat-icon:nth-child(5) { animation-delay: 1.2s; }
+  .bloat-icon:nth-child(6) { animation-delay: 1.5s; }
+  .bloat-icon:nth-child(7) { animation-delay: 1.8s; }
+  .bloat-icon:nth-child(8) { animation-delay: 2.1s; }
+  .bloat-icon:nth-child(9) { animation-delay: 0.45s; }
+  .bloat-icon:nth-child(10) { animation-delay: 0.75s; }
+  .bloat-icon:nth-child(11) { animation-delay: 1.05s; }
+  .bloat-icon:nth-child(12) { animation-delay: 1.35s; }
+
+  .bloat-icon:hover {
+    border-color: var(--accent3);
+    box-shadow: 0 0 20px rgba(255,60,110,0.3);
+    transform: scale(1.1) rotate(-5deg);
+  }
+
+  .bloat-label {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.5px;
+    text-align: center;
+    display: block;
+  }
+
+  .bloat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ─── FEATURES GRID ─── */
+  .features-section {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .features-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 64px;
+    align-items: end;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .feature-card:hover {
+    border-color: rgba(0,240,255,0.3);
+    transform: translateY(-4px);
+  }
+
+  .feature-card:hover::before { opacity: 1; }
+
+  .feature-card.wide { grid-column: span 2; }
+
+  .feat-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .feat-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .feat-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  .feat-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    background: rgba(0,240,255,0.1);
+    border: 1px solid rgba(0,240,255,0.3);
+    border-radius: 4px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-top: 12px;
+  }
+
+  /* ─── GAMES SECTION ─── */
+  .games-section {
+    background: var(--surface);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .games-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .games-strip {
+    display: flex;
+    gap: 16px;
+    margin-top: 48px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .games-strip::before,
+  .games-strip::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 120px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .games-strip::before { left: 0; background: linear-gradient(90deg, var(--surface), transparent); }
+  .games-strip::after { right: 0; background: linear-gradient(-90deg, var(--surface), transparent); }
+
+  .games-track {
+    display: flex;
+    gap: 16px;
+    animation: scrollGames 20s linear infinite;
+    will-change: transform;
+  }
+
+  .game-chip {
+    flex-shrink: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    transition: border-color 0.2s;
+  }
+
+  .game-chip:hover {
+    border-color: var(--accent);
+  }
+
+  .game-chip-icon { font-size: 20px; }
+
+  /* ─── TWEAKS SECTION ─── */
+  .tweaks-section {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .tweaks-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .tweaks-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .tweak-category {
+    background: var(--card);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .tweak-category:hover { background: var(--surface2); }
+
+  .tweak-cat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .tweak-cat-icon {
+    font-size: 28px;
+  }
+
+  .tweak-cat-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: var(--accent);
+  }
+
+  .tweak-count {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--surface2);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .tweak-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tweak-list li {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+  }
+
+  .tweak-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent2);
+    flex-shrink: 0;
+  }
+
+  /* ─── TESTIMONIALS ─── */
+  .testimonials-section {
+    background: var(--surface);
+    overflow: hidden;
+    position: relative;
+    padding: 100px 0;
+  }
+
+  .testimonials-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+  }
+
+  .testimonials-header {
+    text-align: center;
+    padding: 0 48px;
+    margin-bottom: 64px;
+  }
+
+  .testimonials-row {
+    display: flex;
+    gap: 20px;
+    padding: 0 48px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .testimonials-row::before,
+  .testimonials-row::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .testimonials-row::before { left: 0; background: linear-gradient(90deg, var(--surface), transparent); }
+  .testimonials-row::after { right: 0; background: linear-gradient(-90deg, var(--surface), transparent); }
+
+  .t-track {
+    display: flex;
+    gap: 20px;
+    animation: scrollTestimonials 28s linear infinite;
+  }
+
+  .t-card {
+    flex-shrink: 0;
+    width: 320px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+  }
+
+  .t-card::before {
+    content: '"';
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: rgba(0,240,255,0.06);
+    line-height: 1;
+  }
+
+  .t-text {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  .t-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .t-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: #000;
+  }
+
+  .t-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+
+  .t-role {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .t-stars {
+    margin-left: auto;
+    color: #ffd700;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  /* ─── CTA SECTION ─── */
+  .cta-section {
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 120px 48px;
+  }
+
+  .cta-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(123,0,255,0.2) 0%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+  }
+
+  .cta-border {
+    position: absolute;
+    inset: 40px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    pointer-events: none;
+  }
+
+  .cta-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--accent2), transparent, var(--accent));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 88px);
+    letter-spacing: 3px;
+    line-height: 1;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .cta-sub {
+    font-size: 17px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    font-weight: 500;
+    position: relative;
+  }
+
+  /* ─── FAQ ─── */
+  .faq-section {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .faq-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .faq-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .faq-item.open {
+    border-color: rgba(0,240,255,0.3);
+  }
+
+  .faq-q {
+    padding: 20px 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.3px;
+    user-select: none;
+    transition: color 0.2s;
+  }
+
+  .faq-q:hover { color: var(--accent); }
+
+  .faq-item.open .faq-q { color: var(--accent); }
+
+  .faq-arrow {
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  .faq-item.open .faq-arrow { transform: rotate(180deg); color: var(--accent); }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .faq-a-inner {
+    padding: 0 24px 20px;
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 500;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 64px 48px 32px;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 48px;
+    margin-bottom: 48px;
+    align-items: start;
+  }
+
+  .footer-brand .logo-text { font-size: 26px; }
+
+  .footer-desc {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 260px;
+    margin-top: 12px;
+    line-height: 1.7;
+    font-weight: 500;
+  }
+
+  .footer-col-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  .footer-social {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .social-btn {
+    width: 36px;
+    height: 36px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+
+  .social-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 12px rgba(0,240,255,0.2);
+  }
+
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .virustotal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,240,255,0.06);
+    border: 1px solid rgba(0,240,255,0.2);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .virustotal-badge:hover { background: rgba(0,240,255,0.1); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes floatBloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @keyframes scrollGames {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @keyframes scrollTestimonials {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @keyframes pulse-accent {
+    0%, 100% { box-shadow: 0 0 20px rgba(0,240,255,0.3); }
+    50% { box-shadow: 0 0 40px rgba(0,240,255,0.6); }
+  }
+
+  /* ─── SCROLL PROGRESS ─── */
+  .scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    z-index: 9998;
+    transition: width 0.1s;
+    box-shadow: 0 0 8px rgba(0,240,255,0.6);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 64px 24px; }
+    .features-header { grid-template-columns: 1fr; gap: 24px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .feature-card.wide { grid-column: span 1; }
+    .tweaks-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .stats-strip { gap: 32px; padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Scroll progress -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="logo-icon">JT</div>
+    <span class="logo-text">JAFOO <span>TWEAKS</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#tweaks">Tweaks</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="https://github.com/doublerobloxbros-sys/JafooTweaks" target="_blank">GitHub</a></li>
+    <li><a href="https://raw.githubusercontent.com/doublerobloxbros-sys/JafooTweaks/main/JafooTweaks-Setup.exe" class="nav-cta">
+      ⬇ Download
+    </a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-glow-3"></div>
+
+  <div class="trust-pill">
+    <div class="trust-avatars">
+      <div class="trust-avatar ta1">G</div>
+      <div class="trust-avatar ta2">R</div>
+      <div class="trust-avatar ta3">K</div>
+    </div>
+    <span class="trust-text">100% FREE · No BS · Open Source</span>
+  </div>
+
+  <div class="hero-eyebrow">// Windows Gaming Optimizer v2.5.0</div>
+
+  <h1 class="hero-title">
+    BOOST FPS.<br>
+    <span class="accent">KILL</span> <span class="accent2">LAG.</span>
+  </h1>
+
+  <p class="hero-sub">
+    <strong>Jafoo Tweaks</strong> kills Windows bloat, dials in your registry, and squeezes every FPS out of your rig — completely free, forever.
+  </p>
+
+  <a href="https://raw.githubusercontent.com/doublerobloxbros-sys/JafooTweaks/main/JafooTweaks-Setup.exe" class="btn-primary">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h4V4h4v6h4l-6 6zM4 18h16v2H4v-2z"/></svg>
+    Download Jafoo Tweaks
+  </a>
+
+  <p class="hero-meta">Windows 10 / 11 · v2.5.0 · <span>FREE</span> · No account required</p>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-num">90+</div>
+    <div class="stat-label">Registry Tweaks</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">7</div>
+    <div class="stat-label">Categories</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">5</div>
+    <div class="stat-label">Game Profiles</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Free Forever</div>
+  </div>
+</div>
+
+<!-- BLOAT SECTION -->
+<section class="bloat-section">
+  <span class="section-tag">// The Problem</span>
+  <h2 class="section-title">Windows is Holding You Back.</h2>
+  <p class="section-desc" style="margin: 0 auto;">Your CPU is running Cortana, telemetry, Xbox Game Bar, and 80 other processes that have nothing to do with your game.</p>
+
+  <div class="bloat-icons">
+    <div class="bloat-item"><div class="bloat-icon">🛡️</div><span class="bloat-label">Defender</span></div>
+    <div class="bloat-item"><div class="bloat-icon">📎</div><span class="bloat-label">Cortana</span></div>
+    <div class="bloat-item"><div class="bloat-icon">🎮</div><span class="bloat-label">Xbox Bar</span></div>
+    <div class="bloat-item"><div class="bloat-icon">☁️</div><span class="bloat-label">OneDrive</span></div>
+    <div class="bloat-item"><div class="bloat-icon">🔵</div><span class="bloat-label">Teams</span></div>
+    <div class="bloat-item"><div class="bloat-icon">🔍</div><span class="bloat-label">Bing Search</span></div>
+    <div class="bloat-item"><div class="bloat-icon">📊</div><span class="bloat-label">Telemetry</span></div>
+    <div class="bloat-item"><div class="bloat-icon">🗺️</div><span class="bloat-label">Maps</span></div>
+    <div class="bloat-item"><div class="bloat-icon">📰</div><span class="bloat-label">News Feed</span></div>
+    <div class="bloat-item"><div class="bloat-icon">🧑‍💻</div><span class="bloat-label">Copilot</span></div>
+    <div class="bloat-item"><div class="bloat-icon">📦</div><span class="bloat-label">MS Store</span></div>
+    <div class="bloat-item"><div class="bloat-icon">🎵</div><span class="bloat-label">Media Player</span></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="features-section">
+    <div class="features-header">
+      <div>
+        <span class="section-tag">// Introducing Jafoo Tweaks</span>
+        <h2 class="section-title">Built for Gamers<br>Who Want the Edge.</h2>
+      </div>
+      <p class="section-desc">One tool. 90+ tested tweaks across registry, network, CPU, GPU, and storage. Optimized for competitive gaming — especially Fortnite.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card wide">
+        <div class="feat-icon">🚀</div>
+        <div class="feat-title">One-Click Optimization</div>
+        <p class="feat-desc">Apply 90+ performance tweaks across Gaming, Performance, Network, Privacy, CPU, GPU, and Storage categories with a single click. No terminal knowledge required.</p>
+        <span class="feat-badge">90+ TWEAKS</span>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🎮</div>
+        <div class="feat-title">Game Profiles</div>
+        <p class="feat-desc">Pre-tuned profiles for Fortnite, Valorant, CS2, Apex, and Warzone. Load your game's optimal settings instantly.</p>
+        <span class="feat-badge">5 GAMES</span>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🌐</div>
+        <div class="feat-title">Network Optimizer</div>
+        <p class="feat-desc">Reduce ping and packet loss with TCP/UDP tuning, DNS optimization, and QoS settings tuned for gaming traffic.</p>
+        <span class="feat-badge">LATENCY FIX</span>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🗑️</div>
+        <div class="feat-title">Windows Debloat</div>
+        <p class="feat-desc">Strip Cortana, telemetry, Xbox bloat, and background garbage hogging your CPU and RAM.</p>
+        <span class="feat-badge">DEBLOAT</span>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🔒</div>
+        <div class="feat-title">Registry Backup</div>
+        <p class="feat-desc">Automatically backs up your registry before applying any changes. Undo everything with one click.</p>
+        <span class="feat-badge">SAFE</span>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">📊</div>
+        <div class="feat-title">Latency Tester</div>
+        <p class="feat-desc">Built-in latency tester so you can see the real impact before and after applying tweaks.</p>
+        <span class="feat-badge">BUILT-IN</span>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">⚙️</div>
+        <div class="feat-title">Custom Profiles</div>
+        <p class="feat-desc">Export your tweaks as a JSON profile and share your exact setup with friends or load it on a new PC.</p>
+        <span class="feat-badge">JSON EXPORT</span>
+      </div>
+      <div class="feature-card wide">
+        <div class="feat-icon">💸</div>
+        <div class="feat-title">Free. Forever. No Catch.</div>
+        <p class="feat-desc">No premium tier, no account, no telemetry, no ads. Jafoo Tweaks is built by a gamer for the community. Open source on GitHub — verify every line yourself.</p>
+        <span class="feat-badge">OPEN SOURCE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GAMES STRIP -->
+<section class="games-section">
+  <span class="section-tag">// Optimized For</span>
+  <h2 class="section-title">Top Competitive Titles</h2>
+  <div class="games-strip">
+    <div class="games-track" id="gamesTrack">
+      <div class="game-chip"><span class="game-chip-icon">🏆</span>Fortnite</div>
+      <div class="game-chip"><span class="game-chip-icon">🔫</span>Valorant</div>
+      <div class="game-chip"><span class="game-chip-icon">💣</span>CS2</div>
+      <div class="game-chip"><span class="game-chip-icon">🪂</span>Apex Legends</div>
+      <div class="game-chip"><span class="game-chip-icon">☢️</span>Warzone</div>
+      <div class="game-chip"><span class="game-chip-icon">🚗</span>Rocket League</div>
+      <div class="game-chip"><span class="game-chip-icon">🏟️</span>Overwatch 2</div>
+      <div class="game-chip"><span class="game-chip-icon">⚔️</span>League of Legends</div>
+      <div class="game-chip"><span class="game-chip-icon">🎮</span>Roblox</div>
+      <div class="game-chip"><span class="game-chip-icon">🧱</span>Minecraft</div>
+      <!-- Duplicate for seamless loop -->
+      <div class="game-chip"><span class="game-chip-icon">🏆</span>Fortnite</div>
+      <div class="game-chip"><span class="game-chip-icon">🔫</span>Valorant</div>
+      <div class="game-chip"><span class="game-chip-icon">💣</span>CS2</div>
+      <div class="game-chip"><span class="game-chip-icon">🪂</span>Apex Legends</div>
+      <div class="game-chip"><span class="game-chip-icon">☢️</span>Warzone</div>
+      <div class="game-chip"><span class="game-chip-icon">🚗</span>Rocket League</div>
+      <div class="game-chip"><span class="game-chip-icon">🏟️</span>Overwatch 2</div>
+      <div class="game-chip"><span class="game-chip-icon">⚔️</span>League of Legends</div>
+      <div class="game-chip"><span class="game-chip-icon">🎮</span>Roblox</div>
+      <div class="game-chip"><span class="game-chip-icon">🧱</span>Minecraft</div>
+    </div>
+  </div>
+</section>
+
+<!-- TWEAKS BREAKDOWN -->
+<section id="tweaks">
+  <div class="tweaks-section">
+    <div class="tweaks-header">
+      <span class="section-tag">// What's Inside</span>
+      <h2 class="section-title">90+ Tweaks Across 7 Categories</h2>
+      <p class="section-desc" style="margin: 0 auto;">Every tweak is researched, tested, and reversible. No guesswork, no snake oil.</p>
+    </div>
+    <div class="tweaks-grid">
+      <div class="tweak-category">
+        <div class="tweak-cat-header">
+          <span class="tweak-cat-icon">🎮</span>
+          <span class="tweak-cat-name">Gaming</span>
+          <span class="tweak-count">18 tweaks</span>
+        </div>
+        <ul class="tweak-list">
+          <li>Game Mode optimization</li>
+          <li>GPU scheduling (HAGS)</li>
+          <li>DirectX settings</li>
+          <li>Priority booster</li>
+          <li>Frame buffer tuning</li>
+        </ul>
+      </div>
+      <div class="tweak-category">
+        <div class="tweak-cat-header">
+          <span class="tweak-cat-icon">⚡</span>
+          <span class="tweak-cat-name">Performance</span>
+          <span class="tweak-count">22 tweaks</span>
+        </div>
+        <ul class="tweak-list">
+          <li>Power plan (Ultimate)</li>
+          <li>Visual effects off</li>
+          <li>Startup cleanup</li>
+          <li>Prefetch tuning</li>
+          <li>Memory compression</li>
+        </ul>
+      </div>
+      <div class="tweak-category">
+        <div class="tweak-cat-header">
+          <span class="tweak-cat-icon">🌐</span>
+          <span class="tweak-cat-name">Network</span>
+          <span class="tweak-count">15 tweaks</span>
+        </div>
+        <ul class="tweak-list">
+          <li>TCP/UDP tuning</li>
+          <li>Nagle's algorithm off</li>
+          <li>DNS optimization</li>
+          <li>QoS gaming traffic</li>
+          <li>IRQ priority NIC</li>
+        </ul>
+      </div>
+      <div class="tweak-category">
+        <div class="tweak-cat-header">
+          <span class="tweak-cat-icon">🕵️</span>
+          <span class="tweak-cat-name">Privacy</span>
+          <span class="tweak-count">14 tweaks</span>
+        </div>
+        <ul class="tweak-list">
+          <li>Telemetry disabled</li>
+          <li>Activity history off</li>
+          <li>Location services</li>
+          <li>Advertising ID block</li>
+          <li>DiagTrack service</li>
+        </ul>
+      </div>
+      <div class="tweak-category">
+        <div class="tweak-cat-header">
+          <span class="tweak-cat-icon">🧠</span>
+          <span class="tweak-cat-name">CPU</span>
+          <span class="tweak-count">10 tweaks</span>
+        </div>
+        <ul class="tweak-list">
+          <li>Core parking off</li>
+          <li>Spectre/Meltdown patches</li>
+          <li>NUMA optimization</li>
+          <li>Processor affinity</li>
+          <li>Context switch tuning</li>
+        </ul>
+      </div>
+      <div class="tweak-category">
+        <div class="tweak-cat-header">
+          <span class="tweak-cat-icon">🖥️</span>
+          <span class="tweak-cat-name">GPU</span>
+          <span class="tweak-count">8 tweaks</span>
+        </div>
+        <ul class="tweak-list">
+          <li>NVIDIA/AMD tweaks</li>
+          <li>Shader pre-caching</li>
+          <li>V-Sync override</li>
+          <li>Power limit max</li>
+          <li>Texture quality</li>
+        </ul>
+      </div>
+      <div class="tweak-category">
+        <div class="tweak-cat-header">
+          <span class="tweak-cat-icon">💾</span>
+          <span class="tweak-cat-name">Storage</span>
+          <span class="tweak-count">8 tweaks</span>
+        </div>
+        <ul class="tweak-list">
+          <li>SSD/HDD optimization</li>
+          <li>Prefetch/Superfetch</li>
+          <li>NTFS tweaks</li>
+          <li>Write caching</li>
+          <li>Virtual memory</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="testimonials-header">
+    <span class="section-tag">// Community Love</span>
+    <h2 class="section-title">What Gamers Are Saying</h2>
+  </div>
+  <div class="testimonials-row">
+    <div class="t-track">
+      <div class="t-card">
+        <p class="t-text">"Went from 80 FPS to 120+ in Fortnite. Literally the only free tool that actually does what it says."</p>
+        <div class="t-author">
+          <div class="t-avatar" style="background: linear-gradient(135deg, #00f0ff, #0080ff);">K</div>
+          <div>
+            <div class="t-name">KingSlayer_YT</div>
+            <div class="t-role">// Fortnite Player</div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="t-card">
+        <p class="t-text">"My ping dropped from 75ms to 45ms after the network tweaks. Input delay feels way snappier."</p>
+        <div class="t-author">
+          <div class="t-avatar" style="background: linear-gradient(135deg, #7b00ff, #ff3c6e);">R</div>
+          <div>
+            <div class="t-name">RizzyFPS</div>
+            <div class="t-role">// Valorant Ranked</div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="t-card">
+        <p class="t-text">"I was paying for other optimizers. Found Jafoo Tweaks and cancelled everything. This is better and it's free."</p>
+        <div class="t-author">
+          <div class="t-avatar" style="background: linear-gradient(135deg, #ff3c6e, #ff8000);">M</div>
+          <div>
+            <div class="t-name">MxdGaming</div>
+            <div class="t-role">// CS2 Player</div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="t-card">
+        <p class="t-text">"The game profiles are insane. Loaded the Fortnite profile and my frames are so much more consistent."</p>
+        <div class="t-author">
+          <div class="t-avatar" style="background: linear-gradient(135deg, #00ff88, #00f0ff);">T</div>
+          <div>
+            <div class="t-name">TurboFN</div>
+            <div class="t-role">// Fortnite Comp</div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="t-card">
+        <p class="t-text">"Actual open source tool with no accounts, no telemetry. Finally something built by someone who actually games."</p>
+        <div class="t-author">
+          <div class="t-avatar" style="background: linear-gradient(135deg, #ffd700, #ff8000);">J</div>
+          <div>
+            <div class="t-name">JayPC_Dev</div>
+            <div class="t-role">// Tech Enthusiast</div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+      <!-- Duplicate for loop -->
+      <div class="t-card">
+        <p class="t-text">"Went from 80 FPS to 120+ in Fortnite. Literally the only free tool that actually does what it says."</p>
+        <div class="t-author">
+          <div class="t-avatar" style="background: linear-gradient(135deg, #00f0ff, #0080ff);">K</div>
+          <div>
+            <div class="t-name">KingSlayer_YT</div>
+            <div class="t-role">// Fortnite Player</div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="t-card">
+        <p class="t-text">"My ping dropped from 75ms to 45ms after the network tweaks. Input delay feels way snappier."</p>
+        <div class="t-author">
+          <div class="t-avatar" style="background: linear-gradient(135deg, #7b00ff, #ff3c6e);">R</div>
+          <div>
+            <div class="t-name">RizzyFPS</div>
+            <div class="t-role">// Valorant Ranked</div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="t-card">
+        <p class="t-text">"I was paying for other optimizers. Found Jafoo Tweaks and cancelled everything. This is better and it's free."</p>
+        <div class="t-author">
+          <div class="t-avatar" style="background: linear-gradient(135deg, #ff3c6e, #ff8000);">M</div>
+          <div>
+            <div class="t-name">MxdGaming</div>
+            <div class="t-role">// CS2 Player</div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="cta-border"></div>
+  <span class="section-tag" style="position:relative">// Get Started Now</span>
+  <h2 class="cta-title" style="position:relative">
+    STOP LEAVING<br><span style="color:var(--accent)">FPS ON THE TABLE.</span>
+  </h2>
+  <p class="cta-sub" style="position:relative">Download Jafoo Tweaks free. No account. No nonsense. Just performance.</p>
+  <a href="https://raw.githubusercontent.com/doublerobloxbros-sys/JafooTweaks/main/JafooTweaks-Setup.exe" class="btn-primary" style="position:relative; opacity:1; animation:none;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h4V4h4v6h4l-6 6zM4 18h16v2H4v-2z"/></svg>
+    Download Free — v2.5.0
+  </a>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="faq-section">
+    <div class="faq-header">
+      <span class="section-tag">// FAQ</span>
+      <h2 class="section-title">Frequently Asked</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What is Jafoo Tweaks? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Jafoo Tweaks is a free, open-source Windows gaming optimizer built with PowerShell and an Electron UI. It applies 90+ tested registry, network, CPU, GPU, and storage tweaks to maximize your gaming performance.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Is it safe? Will it break my PC? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. Jafoo Tweaks automatically backs up your registry before applying any changes. Every tweak is reversible. The source code is fully open on GitHub — you can inspect every line before running it.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Is it actually free? What's the catch? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a-inner">No catch. Jafoo Tweaks is 100% free, no account required, no telemetry, no ads. It's a passion project built for the gaming community.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What Windows versions does it support? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Jafoo Tweaks supports Windows 10 and Windows 11. It is built with PowerShell 5.1 compatibility so it works on all modern Windows versions without needing any updates or additional runtimes.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How much FPS improvement can I expect? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Results vary depending on your hardware and how bloated your Windows install is. Most users see meaningful FPS gains and more consistent frame times, especially after debloating and applying game-specific profiles. Use the built-in latency tester to benchmark before and after.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Does it work with anti-cheat (Vanguard, EAC, BattlEye)? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. Jafoo Tweaks applies OS-level and registry optimizations — it does not modify any game files, inject into processes, or bypass anti-cheat systems. It's compatible with Vanguard, Easy Anti-Cheat, and BattlEye.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Where can I get support or report a bug? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Open an issue on the GitHub repository at github.com/doublerobloxbros-sys/JafooTweaks, or reach out on Twitter/X @JaydenBoxedY0U.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="nav-logo" style="margin-bottom: 12px;">
+        <div class="logo-icon">JT</div>
+        <span class="logo-text">JAFOO <span>TWEAKS</span></span>
+      </div>
+      <p class="footer-desc">Free Windows gaming optimizer built by a gamer, for gamers. Boost FPS, kill latency, stop the bloat.</p>
+      <div class="footer-social" style="margin-top: 16px;">
+        <a href="https://twitter.com/JaydenBoxedY0U" class="social-btn" title="Twitter/X" target="_blank">𝕏</a>
+        <a href="https://youtube.com/@JafooFN" class="social-btn" title="YouTube" target="_blank">▶</a>
+        <a href="https://tiktok.com/@JafooFN" class="social-btn" title="TikTok" target="_blank">♪</a>
+        <a href="https://github.com/doublerobloxbros-sys/JafooTweaks" class="social-btn" title="GitHub" target="_blank">⌥</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Product</div>
+      <ul class="footer-links">
+        <li><a href="https://raw.githubusercontent.com/doublerobloxbros-sys/JafooTweaks/main/JafooTweaks-Setup.exe">Download</a></li>
+        <li><a href="https://github.com/doublerobloxbros-sys/JafooTweaks" target="_blank">GitHub</a></li>
+        <li><a href="https://github.com/doublerobloxbros-sys/JafooTweaks/releases" target="_blank">Changelog</a></li>
+        <li><a href="#tweaks">Tweaks List</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Creator</div>
+      <ul class="footer-links">
+        <li><a href="https://twitter.com/JaydenBoxedY0U" target="_blank">@JaydenBoxedY0U</a></li>
+        <li><a href="https://youtube.com/@JafooFN" target="_blank">YouTube</a></li>
+        <li><a href="https://tiktok.com/@JafooFN" target="_blank">TikTok</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Support</div>
+      <ul class="footer-links">
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="https://github.com/doublerobloxbros-sys/JafooTweaks/issues" target="_blank">Report Bug</a></li>
+        <li><a href="https://twitter.com/JaydenBoxedY0U" target="_blank">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 JafooFN · Jafoo Tweaks · All rights reserved</span>
+    <a href="#" class="virustotal-badge">🛡️ VirusTotal Clean</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll progress
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const p = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    document.getElementById('scrollProgress').style.width = p + '%';
+  });
+
+  // FAQ toggle
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const ans = item.querySelector('.faq-a');
+    const inner = item.querySelector('.faq-a-inner');
+    const isOpen = item.classList.contains('open');
+
+    // Close all
+    document.querySelectorAll('.faq-item.open').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-a').style.maxHeight = '0';
+    });
+
+    if (!isOpen) {
+      item.classList.add('open');
+      ans.style.maxHeight = inner.offsetHeight + 24 + 'px';
+    }
+  }
+</script>
+</body>
+</html>
